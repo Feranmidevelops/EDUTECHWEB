@@ -1,20 +1,22 @@
 const mongoose = require('mongoose');
-const connect = mongoose.connect("mongodb+srv://workwithferanmi:pKQH95ePA6g9R6Kn@edutechweb.fioi5un.mongodb.net/?appName=edutechweb" ,); 
+const connect = mongoose.connect("mongodb+srv://workwithferanmi:pKQH95ePA6g9R6Kn@edutechweb.fioi5un.mongodb.net/?appName=edutechweb" , {
+  serverSelectionTimeoutMS: 30000 // Increase timeout
+}); 
 
 // check if its working
 
 connect.then(() => {
     console.log('database connected successfully');
-});
+})
 .catch(() => {
     console.log('database cant be connected');
-});
+});  
 
 //schema
 
 const LoginSchema = new mongoose.Schema({
     name: {
-        type: string,
+        type: String,
     },
     email: {
         type: String,
@@ -29,6 +31,8 @@ const LoginSchema = new mongoose.Schema({
 
 //collect
 const collection = new mongoose.model('users', LoginSchema);
+
+module.exports = collection;  
 
 
 
