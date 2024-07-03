@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const crypt = require('bcrypt');
+const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const collection = require("./config");
@@ -70,6 +70,26 @@ app.post("/register", async (req, res) => {
 
 
 } );
+
+//user login
+app.post("/login", async(req, res) => {
+  try{
+    const check = await collection.findOne({email: req.body.email});
+    if(!check) {
+      res.send("email is not registered!");
+    }
+    //compare email and password
+    const isPasswordMatch = await bcrypt.compare(req.body.password, check.password);
+    if(isPasswordMatch) {
+      res.render("/home");
+    }else{
+      req.send("wrong password");
+    }
+  }
+  catch{
+    res.send("wrong details");
+  }
+});
 
 
 app.listen(3000, () => {
