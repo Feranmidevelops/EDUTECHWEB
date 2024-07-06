@@ -6,7 +6,6 @@ const session = require('express-session');
 const collection = require("./config");
 
 
-
 const app = express();
 //convert data into json 
 app.use(express.json());
