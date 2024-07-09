@@ -1,4 +1,6 @@
 const express = require("express");
+const {validateSchemas} = require("../middlewares/validation.middleware")
+const {registerSchema, loginSchema} = require("../validations/auth.validation")
 const { registerUser, loginUser, registerForm, loginForm } = require("../controllers/auth.controller");
 
 const authRoute = express.Router();
@@ -11,9 +13,10 @@ authRoute.get("/login", loginForm)
 
 // goes to the register and login route
 // auth/register
-authRoute.post("/register", registerUser);
+authRoute.post("/register", validateSchemas(registerSchema), registerUser);
 // auth/login
-authRoute.post("/login", loginUser);
+authRoute.post("/login", validateSchemas(loginSchema), loginUser);
 
 
 module.exports = authRoute;
+
