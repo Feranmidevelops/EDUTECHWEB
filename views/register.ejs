@@ -1,35 +1,51 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Register</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-</head>
-<body>
-  <div class="container">
-    <h2>Register</h2>
-    <form action="/register" method="post">
-      <div class="form-group">
-        <label for="username">Username:</label>
-        <input type="text" name="username" class="form-control" id="username">
-      </div>
-      <div class="form-group">
-        <label for="email">Email:</label>
-        <input type="email" name="email" class="form-control" id="email">
-      </div>
-      <div class="form-group">
-        <label for="password">Password:</label>
-        <input type="password" class="form-control" id="password" name="password">
-      </div>
-      <div class="form-group">
-        <label for="confirmPassword">Confirm Password:</label>
-        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword">
-      </div>
-      <button type="submit" class="btn btn-primary">Register</button>
+  <head>
+    <title>Register</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h2>Register</h2>
+      <form action="/auth/register" method="post">
+        <div class="form-group">
+          <label for="username">Username:</label>
+          <input
+            type="text"
+            name="username"
+            class="form-control"
+            id="username"
+          />
+        </div>
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" name="email" class="form-control" id="email" />
+        </div>
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            name="password"
+          />
+        </div>
+        <div class="form-group">
+          <label for="roles">Register as:</label>
+          <Select name="role" , id="roles">
+            <option value="admin">Admin</option>
+            <option value="user">User</option>
+          </Select>
+        </div>
+        <button type="submit" class="btn btn-primary">Register</button>
 
-      <div class="form-group">
-        <p>Already have an account? <a href="/login">Login</a></p>
-      </div>
-    </form>
-  </div>
-</body>
+        <div class="form-group">
+          <p>Already have an account? <a href="/auth/login">Login</a></p>
+        </div>
+      </form>
+    </div>
+  </body>
 </html>

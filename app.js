@@ -1,6 +1,7 @@
 const express = require("express");
+const mongoose = require("mongoose");
 const path = require("path");
-require('dotenv').config()
+require("dotenv").config();
 const authRoute = require("./src/routes/auth.route");
 const PORT = process.env.PORT | 3000;
 
@@ -24,7 +25,17 @@ app.use("/auth", authRoute);
 //runs if undefined routes are acessed
 app.all("*", (req, res, next) => {
   res.send("This route doesn't exist");
-})
+});
+
+//connect to Mongo Databas
+mongoose
+  .connect(process.env.DB_URL)
+  .then(() => {
+    console.log("Connected to mongoDB");
+  })
+  .catch((err) => {
+    console.error("Error connecting to database", err.message);
+  });
 
 app.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
