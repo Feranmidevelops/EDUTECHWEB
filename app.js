@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const path = require("path");
 require("dotenv").config();
 const authRoute = require("./src/routes/auth.route");
+const userRoute = require("./src/routes/user.route");
 const PORT = process.env.PORT | 3000;
 
 const app = express();
@@ -16,11 +17,12 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 app.get("/", (req, res) => {
-  res.render("login");
+  res.render("home");
 });
 
 //middleware for routes that begin with /auth
-app.use("/auth", authRoute);
+app.use("/api/auth", authRoute);
+app.use("/api", userRoute);
 
 //runs if undefined routes are acessed
 app.all("*", (req, res, next) => {

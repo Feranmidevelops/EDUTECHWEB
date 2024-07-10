@@ -1,4 +1,4 @@
-const User = require("../models/user.model");
+const User = require("../../models/user.model");
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
@@ -25,16 +25,17 @@ exports.registerUser = async (req, res) => {
     }
 
     const hashedPassword = await bcryptjs.hash(password, 10);
-    await User.create({
+    const newUser = await User.create({
       username,
       email,
       password: hashedPassword,
       role,
     });
+
     return res.status(200).json({
       status: true,
       message: `${role} registered successfully`,
-      user: { username, email, role },
+      data: ({ password, ...userwithoutPassword } = newUser),
     });
   } catch (err) {
     return res.status(500).json({
@@ -48,13 +49,12 @@ exports.registerUser = async (req, res) => {
 exports.loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
-
     const foundUser = await User.findOne({ email });
 
     if (!foundUser) {
       return res.status(400).json({
         status: false,
-        message: "account not found, email doesn't exist",
+        message: "email doesn't exist",
       });
     }
 
@@ -77,8 +77,7 @@ exports.loginUser = async (req, res) => {
     res.status(200).json({
       status: true,
       message: "Successfully logged in",
-      //pass user details without pasword
-      user: { id, username, email, role, token, },
+      data: { id, username, email, role, token },
     });
   } catch (err) {
     return res.status(500).json({
