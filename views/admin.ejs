@@ -1,1 +1,141 @@
-<!-- profile.ejs displays the admin's view of the webpage (the dashboard)-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Upload and Management</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            text-align: center;
+            color: #333;
+        }
+        .upload-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .upload-form input[type="file"] {
+            margin-bottom: 20px;
+            padding: 15px;
+            font-size: 16px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+            max-width: 400px;
+        }
+        .upload-form button {
+            padding: 15px 30px;
+            font-size: 18px;
+            color: #fff;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+            max-width: 400px;
+        }
+        .upload-form button:hover {
+            background-color: #0056b3;
+        }
+        .document-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .document-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            border-bottom: 1px solid #e0e0e0;
+            transition: background-color 0.3s;
+        }
+        .document-item:hover {
+            background-color: #f9f9f9;
+        }
+        .document-item:last-child {
+            border-bottom: none;
+        }
+        .delete-button {
+            padding: 5px 10px;
+            font-size: 14px;
+            color: #fff;
+            background-color: #ff4d4d;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .delete-button:hover {
+            background-color: #ff1a1a;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Document Upload</h1>
+        <form id="uploadForm" class="upload-form" enctype="multipart/form-data">
+            <input type="file" id="fileInput" name="document" required>
+            <button type="submit">Upload</button>
+        </form>
+        
+        <h2>Uploaded Documents</h2>
+        <ul id="documentList" class="document-list">
+            <!-- Dynamically populated list -->
+        </ul>
+        <p>click <a href="home.ejs">here</a> to go home</p>
+    </div>
+
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+            
+            // Simulate file upload and add document to the list
+            if (file) {
+                const newListItem = createDocumentItem(file.name);
+                document.getElementById('documentList').appendChild(newListItem);
+                fileInput.value = ''; // Clear the input
+            }
+        });
+
+        function createDocumentItem(fileName) {
+            const listItem = document.createElement('li');
+            listItem.className = 'document-item';
+
+            const fileNameSpan = document.createElement('span');
+            fileNameSpan.textContent = fileName;
+            
+            const deleteButton = document.createElement('button');
+            deleteButton.className = 'delete-button';
+            deleteButton.textContent = 'Delete';
+            deleteButton.addEventListener('click', function() {
+                listItem.remove();
+                // Add server-side deletion logic here
+            });
+
+            listItem.appendChild(fileNameSpan);
+            listItem.appendChild(deleteButton);
+
+            return listItem;
+        }
+    </script>
+</body>
+</html>
