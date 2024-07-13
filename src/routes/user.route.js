@@ -10,8 +10,8 @@ const upload = multer({ dest: "uploads/" });
 
 //admin Routes
 userRoute.get("/admin", verifyToken, adminAuth, adminPage);
-userRoute.post("/admin/upload", verifyToken, adminAuth, uploadDoc);
-userRoute.delete("/admin/delete/:id", verifyToken, adminAuth, delDoc);
+userRoute.post("/upload", verifyToken, adminAuth, uploadDoc);
+userRoute.delete("/delete/:id", verifyToken, adminAuth, delDoc);
 
 //UserRoutes
 userRoute.get("/profile", verifyToken, userPage);

@@ -2,10 +2,10 @@ const jwt = require("jsonwebtoken");
 
 exports.verifyToken = async (req, res, next) => {
   try {
-    const token = req.header("Authorization")?.replace("Bearer", "");
+    const token = req.cookies.jwt;
 
     if (!token)
-      return res.status(400).json({ status: false, message: "unauthorized access" });
+      return res.status(400).json({ status: false, message: "unauthorized access ismiddleware" });
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded;

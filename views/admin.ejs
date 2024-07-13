@@ -90,7 +90,8 @@
 <body>
     <div class="container">
         <h1>Document Upload</h1>
-        <form id="uploadForm" class="upload-form" enctype="multipart/form-data">
+        <!-- action="/auth/register" method="post" -->
+        <form action="/user/upload" method="post" id="uploadForm" class="upload-form" enctype="multipart/form-data">
             <input type="file" id="fileInput" name="document" required>
             <button type="submit">Upload</button>
         </form>
@@ -99,7 +100,7 @@
         <ul id="documentList" class="document-list">
             <!-- Dynamically populated list -->
         </ul>
-        <p>click <a href="home.ejs">here</a> to go home</p>
+        <p>click <a href="/">here</a> to go home</p>
     </div>
 
     <script>

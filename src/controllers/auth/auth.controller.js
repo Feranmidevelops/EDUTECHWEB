@@ -32,11 +32,14 @@ exports.registerUser = async (req, res) => {
       role,
     });
 
-    return res.status(200).json({
-      status: true,
-      message: `${role} registered successfully`,
-      data: ({ password, ...userwithoutPassword } = newUser),
-    });
+    return res.redirect("/auth/login")
+    // return res.status(200).json({
+    //   status: true,
+    //   message: `${role} registered successfully`,
+    //   data: ({ password, ...userwithoutPassword } = newUser),
+    // });
+
+    
   } catch (err) {
     return res.status(500).json({
       status: false,
@@ -74,11 +77,20 @@ exports.loginUser = async (req, res) => {
         expiresIn: process.env.JWT_LIFETIME,
       }
     );
-    res.status(200).json({
-      status: true,
-      message: "Successfully logged in",
-      data: { id, username, email, role, token },
-    });
+    // res.status(200).json({
+    //   status: true,
+    //   message: "Successfully logged in",
+    //   data: { id, username, email, role, token },
+    // });
+
+    res.cookie('jwt',token, {httpOnly : true, secure : true});
+    if (role === 'admin') {
+      return res.redirect('/user/admin');
+    } else if (role === 'user') {
+      return res.redirect('/user/profile');
+    } else {
+      return res.status(403).send('Forbidden');
+    }
   } catch (err) {
     return res.status(500).json({
       status: false,

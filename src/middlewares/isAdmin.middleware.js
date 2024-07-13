@@ -1,4 +1,4 @@
-exports.adminAuth = async () => {
+exports.adminAuth = async (req, res, next) => {
   const { role } = req.user;
 
   if (role !== "admin")
