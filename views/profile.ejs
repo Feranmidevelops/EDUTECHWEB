@@ -1,1 +1,111 @@
-<!-- profile.ejs displays the user's view of the webpage -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Management</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            text-align: center;
+            color: #333;
+        }
+        .document-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .document-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            border-bottom: 1px solid #e0e0e0;
+            transition: background-color 0.3s;
+        }
+        .document-item:hover {
+            background-color: #f9f9f9;
+        }
+        .document-item:last-child {
+            border-bottom: none;
+        }
+        .download-button {
+            padding: 5px 10px;
+            font-size: 14px;
+            color: #fff;
+            background-color: #28a745;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .download-button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Document Management</h1>
+        
+        <h2>Uploaded Documents</h2>
+        <ul id="documentList" class="document-list">
+            <!-- Dynamically populated list -->
+        </ul>
+    </div>
+    <div>
+        <p class="container">
+            click <a href="home.ejs">here</a> to return home.
+        </p>
+    </div>
+
+    <script>
+        // Sample data to demonstrate the document list
+        const documents = [
+            { name: 'Document1.pdf', url: 'path/to/document1.pdf' },
+            { name: 'Document2.docx', url: 'path/to/document2.docx' },
+            { name: 'Document3.xlsx', url: 'path/to/document3.xlsx' }
+        ];
+
+        // Function to create a document item
+        function createDocumentItem(fileName, fileUrl) {
+            const listItem = document.createElement('li');
+            listItem.className = 'document-item';
+
+            const fileNameSpan = document.createElement('span');
+            fileNameSpan.textContent = fileName;
+            
+            const downloadButton = document.createElement('a');
+            downloadButton.className = 'download-button';
+            downloadButton.textContent = 'Download';
+            downloadButton.href = fileUrl;
+            downloadButton.download = fileName;
+
+            listItem.appendChild(fileNameSpan);
+            listItem.appendChild(downloadButton);
+
+            return listItem;
+        }
+
+        // Populate the document list
+        const documentList = document.getElementById('documentList');
+        documents.forEach(doc => {
+            const newListItem = createDocumentItem(doc.name, doc.url);
+            documentList.appendChild(newListItem);
+        });
+    </script>
+</body>
+</html>
