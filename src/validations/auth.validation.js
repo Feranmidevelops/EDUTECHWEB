@@ -1,5 +1,4 @@
 const Joi = require("joi");
-
 //Validate the user schema
 exports.registerSchema = Joi.object({
   username: Joi.string().alphanum().min(3).max(20).required(),
