@@ -1,30 +1,58 @@
+const Document = require("../../models/document.model");
 //admin routes
 exports.adminPage = async (req, res) => {
-  console.log("This is the admin route");
-  res.render("admin");
+  try {
+    const documents = await Document.find();
+    return res.render("admin", { documents, message: req.flash("message") });
+  } catch (err) {
+    return res.render("500error");
+    // return res.status(500).json({ status: false, message: `Internal Server Error: ${err.message}`,});
+  }
 };
 
 exports.uploadDoc = async (req, res) => {
-  console.log("This is the uploadDoc route");
+  try {
+    const { originalname, path } = req.file;
+    const foundDoc = await Document.findOne({ name: originalname });
+    if (foundDoc) {
+      req.flash("message", "document already stored");
+      const documents = await Document.find();
+      return res.render("admin", {documents, message: req.flash("message") });
+      // return res.status(400).json({ status: false, message: "document already stored" });
+    }
 
-  // const document = new Document({ name: req.file.originalname, path: req.file.path });
-  // try {
-  //   await document.save();
-  //   res.status(201).send(document);
-  // } catch (err) {
-  //   res.status(400).send(err);
-  // }
+    await Document.create({
+      name: originalname,
+      path,
+    });
+    // return res.status(200).json({
+    //   status: true,
+    //   message: "document uploaded successfully",
+    // });
+    return res.redirect("/user/admin");
+  } catch (err) {
+    return res.render("500error");
+    // return res.status(500).json({ status: false, message: `Internal Server Error: ${err.message}`,});
+  }
 };
 
 exports.delDoc = async (req, res) => {
-  console.log("This is the delDoc route");
-  // try {
-  //   const document = await Document.findByIdAndDelete(req.params.id);
-  //   if (!document) {
-  //     return res.status(404).send({ error: 'Document not found' });
-  //   }
-  //   res.send(document);
-  // } catch (err) {
-  //   res.status(400).send(err);
-  // }
+  try {
+    const { id } = req.params;
+    const foundDoc = await Document.findByIdAndDelete(id);
+    if (!foundDoc) {
+      req.flash("message", "document not found");
+      const documents = await Document.find();
+      return res.render("admin", {documents, message: req.flash("message") });
+      // return res.status(400).json({ status: false, message: "document not found" });
+    }
+    // return res.status(200).json({
+    //   status: true,
+    //   message: "document deleted successfully",
+    // });
+    res.redirect("/user/admin");
+  } catch (err) {
+    return res.render("500error");
+    // return res.status(500).json({ status: false, message: `Internal Server Error: ${err.message}`,});
+  }
 };
