@@ -1,24 +1,32 @@
+const Document = require("../../models/document.model");
 //user routes
 exports.userPage = async (req, res) => {
-  console.log('This is the user route')
-  res.render("profile")
-  // try {
-  //   const documents = await Document.find();
-  //   res.send(documents);
-  // } catch (err) {
-  //   res.status(400).send(err);
-  // }
-}
+  try {
+    const documents = await Document.find();
+    res.render("profile", { documents, message: req.flash("message") });
+  } catch (err) {
+    return res.render("500error");
+    // return res.status(500).json({ status: false, message: `Internal Server Error: ${err.message}`,});
+  }
+};
 
 exports.downloadDoc = async (req, res) => {
-  console.log('This is the downloadDoc route')
-  // try {
-  //   const document = await Document.findById(req.params.id);
-  //   if (!document) {
-  //     return res.status(404).send({ error: 'Document not found' });
-  //   }
-  //   res.download(document.path, document.name);
-  // } catch (err) {
-  //   res.status(400).send(err);
-  // }
-}
+  try {
+    const { id } = req.params;
+    const foundDoc = await Document.findById(id);
+    if (!foundDoc) {
+      req.flash("message", "document not found");
+      const documents = await Document.find();
+      return res.render("profile", { documents, message: req.flash("message") });
+      // return res.status(400).json({ status: false, message: "document not found" });
+    }
+    // return res.status(200).json({
+    //   status: true,
+    //   message: "document downloaded successfully",
+    // });
+    return res.download(foundDoc.path, foundDoc.name);
+  } catch (err) {
+    return res.render("500error");
+    // return res.status(500).json({ status: false, message: `Internal Server Error: ${err.message}`,});
+  }
+};

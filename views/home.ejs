@@ -1,1 +1,42 @@
-<!-- home.ejs  should have a link to login and register -->
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="One stop site for everything edutech educational resource related"
+    />
+    <meta name="keywords" content="one stop, site, edutech, educational resource" />
+    <meta name="author" content="Oyetunde Feranmi" />
+    <title>Edutech Resource Centre | Welcome</title>
+    <link rel="stylesheet" href="/home.css" />
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <div id="branding">
+          <h1><span class="highlight">Edutech</span> Resource Centre</h1>
+        </div>
+        <nav>
+          <ul>
+            <li class="current"><a href="home.ejs">home</a></li>
+            <li><a href="profile">Student Library</a></li>
+            <li><a href="admin">Admin</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <div class="intro">
+      <div class="container">
+        <h1><span>Welcome to Edutech Resource Centre</span></h1>
+        <p>Your one stop site for everything Edutech Resource related.</p>
+        <a href="/auth/register" class="button">Register</a>
+        <a href="/auth/login" class="button">Login</a>
+      </div>
+    </div>
+    <footer>
+      <p>Edutech Resource Centre by 19/27pc227, copyright &copy; 2024</p>
+    </footer>
+  </body>
+</html>

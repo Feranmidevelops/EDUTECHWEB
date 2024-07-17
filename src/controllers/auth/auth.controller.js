@@ -4,12 +4,12 @@ const jwt = require("jsonwebtoken");
 
 //this logic renders a register form
 exports.registerForm = async (req, res) => {
-  res.render("register");
+  res.render("register", { message: "" });
 };
 
 //this logic renders a login form
 exports.loginForm = async (req, res) => {
-  res.render("login");
+  res.render("login", { message: req.flash("message") });
 };
 
 // this logic registers and adds data to database
@@ -19,9 +19,9 @@ exports.registerUser = async (req, res) => {
     const foundUser = await User.findOne({ email });
 
     if (foundUser) {
-      return res
-        .status(400)
-        .json({ status: false, message: "email already exists" });
+      req.flash("message", "email already exists");
+      return res.render("register", { message: req.flash("message") });
+      // return res.status(400).send({ status: false, message: "email already exists" });
     }
 
     const hashedPassword = await bcryptjs.hash(password, 10);
@@ -32,16 +32,11 @@ exports.registerUser = async (req, res) => {
       role,
     });
 
-    return res.status(200).json({
-      status: true,
-      message: `${role} registered successfully`,
-      data: ({ password, ...userwithoutPassword } = newUser),
-    });
+    req.flash("message", `${role} registered successfully`);
+    return res.redirect("/auth/login");
   } catch (err) {
-    return res.status(500).json({
-      status: false,
-      message: `Internal Server Error: ${err.message}`,
-    });
+    return res.render("500error");
+    // return res.status(500).json({ status: false, message: `Internal Server Eror: ${err.message}`});
   }
 };
 
@@ -52,37 +47,35 @@ exports.loginUser = async (req, res) => {
     const foundUser = await User.findOne({ email });
 
     if (!foundUser) {
-      return res.status(400).json({
-        status: false,
-        message: "email doesn't exist",
-      });
+      req.flash("message", "email doesn't exist");
+      return res.render("login", { message: req.flash("message") });
+      // return res.status(400).json({ status: false, message: "email doesn't exist"});
     }
 
     const isSimilar = await bcryptjs.compare(password, foundUser.password);
     if (!isSimilar) {
-      return res
-        .status(400)
-        .json({ status: false, message: "Invalid email or password" });
+      req.flash("message", "invalid email or password");
+      return res.render("login", { message: req.flash("message") });
+      // return res.status(400).json({ status: false, message: "Invalid email or password" });
     }
 
     //destructure the gotten user object and add them to jwt token
     const { id, username, role } = foundUser;
-    const token = jwt.sign(
-      { id, username, email, role },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: process.env.JWT_LIFETIME,
-      }
-    );
-    res.status(200).json({
-      status: true,
-      message: "Successfully logged in",
-      data: { id, username, email, role, token },
+    const token = jwt.sign({ id, username, email, role }, process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_LIFETIME,
     });
+
+    res.cookie("jwt", token, { httpOnly: true, secure: true });
+    req.flash("message", `${role} logged in successfully`);
+    if (role === "admin") {
+      return res.redirect("/user/admin");
+    } else if (role === "user") {
+      return res.redirect("/user/profile");
+    } else {
+      return res.status(403).send("Forbidden");
+    }
   } catch (err) {
-    return res.status(500).json({
-      status: false,
-      message: `Internal Server Error: ${err.message}`,
-    });
+    return res.render("500error");
+    // return res.status(500).json({ status: false, message: `Internal Server Error: ${err.message}`,});
   }
 };

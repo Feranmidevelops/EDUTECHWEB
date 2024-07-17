@@ -1,1 +1,53 @@
-<!-- profile.ejs displays the user's view of the webpage -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Profile</title>
+    <link rel="stylesheet" href="/profile.css" />
+  </head>
+  <body>
+    <header>
+      <!-- To render success or error message -->
+      <% if (message.length > 0) { %>
+      <div class="flash-message"><%= message %></div>
+      <% } %>
+      <div class="container">
+        <div id="branding">
+          <h1><span class="highlight">Edutech</span> Resource Centre</h1>
+        </div>
+        <nav>
+          <ul>
+            <li class="current"><a href="profile">Student Library</a></li>
+            <li><a href="/user/admin">Admin</a></li>
+            <li><a href="/">Home</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <div class="container">
+      <h1 class="highlight">welcome to the Edutech Resource Center</h1>
+      <h1>Document Management</h1>
+      <h2>Uploaded Documents</h2>
+      <div class="upload-container">
+        <% if (documents.length === 0) { %>
+        <p class="no-documents">No documents available.</p>
+        <% } else { %>
+        <ul id="documentList" class="document-list">
+          <% documents.forEach(document => { %>
+          <li class="document-item">
+            <span><%= document.name %></span>
+            <a class="download-button" href="/user/download/<%= document._id %>">
+              <button>Download</button>
+            </a>
+          </li>
+          <% }) %>
+        </ul>
+        <% } %>
+      </div>
+      <p>Click <a href="/">here</a> to return home.</p>
+    </div>
+    <script src="/flashMessage.js"></script>
+  </body>
+</html>

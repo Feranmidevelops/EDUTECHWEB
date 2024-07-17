@@ -2,11 +2,13 @@ const jwt = require("jsonwebtoken");
 
 exports.verifyToken = async (req, res, next) => {
   try {
-    const token = req.header("Authorization")?.replace("Bearer", "");
+    const token = req.cookies.jwt;
 
-    if (!token)
-      return res.status(400).json({ status: false, message: "unauthorized access" });
-
+    if (!token) {
+      req.flash("message", "unauthorized access ");
+      return res.render("login", { message: req.flash("message") });
+      // return res.status(400).json({ status: false, message: "unauthorized access " });
+    }
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded;
     next();

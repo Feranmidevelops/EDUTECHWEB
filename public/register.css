@@ -1,0 +1,55 @@
+.error {
+  color: #ff6b6b;
+  margin-bottom: 10px;
+}
+.background-radial-gradient {
+  background-color: #1f2b33;
+  background-image: radial-gradient(650px circle at 0% 0%, #2f4d5f)
+    radial-gradient(
+      1250px circle at 100% 100%,
+      hsl(219, 44%, 49%) 15%,
+      hsl(218, 41%, 38%) 35%,
+      hsl(219, 48%, 26%) 75%,
+      hsl(219, 50%, 10%) 80%,
+      transparent 100%
+    );
+}
+
+#radius-shape-1 {
+  height: 220px;
+  width: 220px;
+  top: -60px;
+  left: -130px;
+  background: radial-gradient(#e8491d, #c53108);
+  overflow: hidden;
+}
+
+#radius-shape-2 {
+  border-radius: 38% 62% 63% 37% / 70% 33% 67% 30%;
+  bottom: -60px;
+  right: -110px;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(#e8491d, #ec876c);
+  overflow: hidden;
+}
+
+.bg-glass {
+  background-color: hsla(0, 0%, 100%, 0.9) !important;
+  backdrop-filter: saturate(200%) blur(25px);
+}
+
+.flash-message {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #f8d7da; /* Change color as needed */
+  color: #721c24; /* Change text color as needed */
+  padding: 10px;
+  border: 1px solid #f5c6cb; /* Change border color as needed */
+  border-radius: 5px;
+  z-index: 1000; /* Ensure it appears above other elements */
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+}

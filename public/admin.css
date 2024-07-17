@@ -1,0 +1,185 @@
+body {
+  font-family: "Arial", sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: rgba(243, 243, 243, 0.8);
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+header {
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.container {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#branding h1 {
+  margin: 0;
+  font-size: 36px;
+  color: #35424a;
+}
+
+#branding .highlight {
+  color: #e8491d;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+}
+
+nav ul li {
+  margin: 0 25px;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: #35424a;
+  font-size: 20px;
+}
+
+nav ul li.current a,
+nav ul li a:hover {
+  color: #e8491d;
+}
+
+h1,
+h2 {
+  text-align: center;
+  color: #333;
+}
+
+.upload-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.upload-form input[type="file"] {
+  margin-bottom: 20px;
+  padding: 15px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.upload-form button {
+  padding: 15px 30px;
+  font-size: 18px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 100%;
+  max-width: 400px;
+}
+
+.upload-form button:hover {
+  background-color: #0056b3;
+}
+
+/* Style for the container */
+.document-list-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: #f5f5f5;
+}
+
+/* Style for the list */
+.document-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+/* Style for each list item */
+.document-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.document-item:hover {
+  background-color: #444444;
+}
+
+/* Style for document name */
+.document-item span {
+  flex-grow: 1;
+  font-size: 16px;
+}
+
+/* Style for buttons */
+.document-item button {
+  padding: 6px 12px;
+  margin-left: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.document-item button:hover {
+  background-color: #0056b3;
+}
+
+/* Style for delete button */
+.document-item .delete-button button {
+  background-color: #dc3545;
+}
+
+.document-item .delete-button button:hover {
+  background-color: #c82333;
+}
+
+/* Style for no documents message */
+.no-documents {
+  text-align: center;
+  font-size: 18px;
+  color: #bbb;
+}
+.flash-message {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #f8d7da; /* Change color as needed */
+  color: #721c24; /* Change text color as needed */
+  padding: 10px;
+  border: 1px solid #f5c6cb; /* Change border color as needed */
+  border-radius: 5px;
+  z-index: 1000; /* Ensure it appears above other elements */
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+}
