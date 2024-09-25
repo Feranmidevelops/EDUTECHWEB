@@ -7,11 +7,12 @@ const flash = require("connect-flash");
 require("dotenv").config();
 const authRoute = require("./src/routes/auth.route");
 const userRoute = require("./src/routes/user.route");
-const PORT = process.env.PORT | 3000;
+const documentRoute = require("./src/routes/document.route");
+const PORT = process.env.PORT || 3000;
 
 const app = express();
 
-//convert data into json
+// Convert data into JSON
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -26,33 +27,36 @@ app.use(
 app.use(flash());
 app.use(express.static(path.join(__dirname, "public")));
 
-//set up path to access view folder and set ejs at view engine
+// Set up path to access view folder and set ejs as view engine
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
+
+// Route handling
+app.use("/auth", authRoute);
+app.use("/user", userRoute);
+app.use("/documents", documentRoute); // Ensure this route is correctly defined
 
 app.get("/", (req, res) => {
   res.render("home");
 });
 
-//middleware for routes that begin with /auth
-app.use("/auth", authRoute);
-app.use("/user", userRoute);
-
-//runs if undefined routes are acessed
-app.all("*", (req, res, next) => {
-  res.redirect("/");
+// Error handling middleware (optional, but recommended)
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something went wrong!');
 });
 
-//connect to Mongo Databas
+// Connect to Mongo Database
 mongoose
   .connect(process.env.DB_URL)
   .then(() => {
-    console.log("Connected to mongoDB");
+    console.log("Connected to MongoDB");
   })
   .catch((err) => {
     console.error("Error connecting to database", err.message);
   });
 
+// Start the server
 app.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
 });

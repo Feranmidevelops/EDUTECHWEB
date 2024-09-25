@@ -14,4 +14,4 @@ const DocumentSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model('Document', DocumentSchema);
+module.exports = mongoose.models.Document || mongoose.model('Document', DocumentSchema);

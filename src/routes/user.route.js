@@ -1,19 +1,24 @@
 const express = require("express");
-const { adminPage, uploadDoc, delDoc } = require("../controllers/user/admin.controller");
-const { userPage, downloadDoc } = require("../controllers/user/user.controller");
+const router = express.Router(); // Define router
+const { adminPage, uploadDoc, delDoc, addComment, deleteComment } = require("../controllers/user/admin.controller");
+const { userPage, downloadDoc, userProfile, searchDocuments } = require("../controllers/user/user.controller");
 const { verifyToken } = require("../middlewares/auth.middleware");
 const { roleAuth } = require("../middlewares/isAdmin.middleware");
-const {upload} = require("../middlewares/multer.middleware")
+const { upload } = require("../middlewares/multer.middleware");
 
-const userRoute = express.Router();
+// Admin Routes
+router.get("/admin", verifyToken, roleAuth("admin"), adminPage);
+router.post("/upload", verifyToken, roleAuth("admin"), upload.single('document'), uploadDoc);
+router.get("/delete/:id", verifyToken, roleAuth("admin"), delDoc);
+router.post('/admin/add-comment', verifyToken, roleAuth('admin'), addComment);
+router.post('/admin/delete-comment/:id', verifyToken, roleAuth("admin"), deleteComment);
 
-//admin Routes
-userRoute.get("/admin", verifyToken, roleAuth("admin"), adminPage);
-userRoute.post("/upload", verifyToken, roleAuth("admin"), upload.single('document'), uploadDoc);
-userRoute.get("/delete/:id", verifyToken, roleAuth("admin"), delDoc);
+// User Routes
+router.get("/profile", verifyToken, roleAuth("user"), userPage);
+router.get("/profile", verifyToken, roleAuth("user"), userProfile);
+router.get("/download/:id", verifyToken, roleAuth("user"), downloadDoc);
 
-//UserRoutes
-userRoute.get("/profile", verifyToken, roleAuth("user"), userPage);
-userRoute.get("/download/:id", verifyToken, roleAuth("user"), downloadDoc);
+// Document Search Route
+router.get("/search", verifyToken, roleAuth("user"), searchDocuments);
 
-module.exports = userRoute;
+module.exports = router; // Export the consolidated router

@@ -26,25 +26,52 @@
       </div>
     </header>
 
+    <div class="upload-container">
+      <form action="/user/search" method="GET">
+        <input type="text" name="q" placeholder="Search for documents..." required>
+        <button type="submit">Search</button>
+      </form>
+    </div>
+
+    
     <div class="container">
       <h1 class="highlight">welcome to the Edutech Resource Center</h1>
-      <h1>Document Management</h1>
       <h2>Uploaded Documents</h2>
+
+
       <div class="upload-container">
-        <% if (documents.length === 0) { %>
-        <p class="no-documents">No documents available.</p>
-        <% } else { %>
-        <ul id="documentList" class="document-list">
-          <% documents.forEach(document => { %>
-          <li class="document-item">
-            <span><%= document.name %></span>
-            <a class="download-button" href="/user/download/<%= document._id %>">
-              <button>Download</button>
-            </a>
-          </li>
-          <% }) %>
-        </ul>
+        <% if (typeof documents !== 'undefined' && documents.length === 0) { %>
+          <p class="no-documents">No documents available.</p>
+        <% } else if (typeof documents !== 'undefined') { %>
+          <ul id="documentList" class="document-list">
+            <% documents.forEach(document => { %>
+            <li class="document-item">
+              <span><%= document.name %></span>
+              <a class="download-button" href="/user/download/<%= document._id %>">
+                <button>Download</button>
+              </a>
+            </li>
+            <% }) %>
+          </ul>
         <% } %>
+
+        <h2>Comments</h2>
+<div class="comments-container">
+  <% if (comments.length === 0) { %>
+    <p class="no-comments">No comments yet.</p>
+  <% } else { %>
+    <ul id="commentsList" class="comments-list">
+      <% comments.forEach(comment => { %>
+        <li class="comment-item">
+          <p><strong><%= comment.author %>:</strong> <%= comment.content %></p>
+          <p class="comment-date"><%= comment.createdAt.toLocaleDateString() %></p>
+        </li>
+      <% }) %>
+    </ul>
+  <% } %>
+</div>
+
+        
       </div>
       <p>Click <a href="/">here</a> to return home.</p>
     </div>

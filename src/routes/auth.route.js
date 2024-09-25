@@ -8,7 +8,10 @@ const {
   loginForm,
 } = require("../controllers/auth/auth.controller");
 
-const authRoute = express.Router();
+const authRoute = express.Router(); 
+
+
+
 
 // goes to the register and login forms
 // /auth/register
