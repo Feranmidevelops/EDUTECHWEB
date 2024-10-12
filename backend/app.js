@@ -4,11 +4,11 @@ const cookieParser = require("cookie-parser");
 const path = require("path");
 const session = require("express-session");
 const flash = require("connect-flash");
-require("dotenv").config();
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 const authRoute = require("./src/routes/auth.route");
 const userRoute = require("./src/routes/user.route");
 const documentRoute = require("./src/routes/document.route");
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 
 const app = express();
 
@@ -25,11 +25,11 @@ app.use(
   })
 );
 app.use(flash());
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "../frontend/public")));
 
 // Set up path to access view folder and set ejs as view engine
 app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
+app.set("views", path.join(__dirname, "..", "frontend", "views"));
 
 // Route handling
 app.use("/auth", authRoute);
@@ -50,7 +50,7 @@ app.use((err, req, res, next) => {
 mongoose
   .connect(process.env.DB_URL)
   .then(() => {
-    console.log("Connected to MongoDB");
+    console.log("Connected to MongoDB", {connectTimeoutMS: 30000});
   })
   .catch((err) => {
     console.error("Error connecting to database", err.message);
