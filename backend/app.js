@@ -4,7 +4,7 @@ const cookieParser = require("cookie-parser");
 const path = require("path");
 const session = require("express-session");
 const flash = require("connect-flash");
-require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
+require("dotenv").config({ path: path.resolve(__dirname, "../.env") });
 const authRoute = require("./src/routes/auth.route");
 const userRoute = require("./src/routes/user.route");
 const documentRoute = require("./src/routes/document.route");
@@ -43,14 +43,15 @@ app.get("/", (req, res) => {
 // Error handling middleware (optional, but recommended)
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).send('Something went wrong!');
+  res.status(500).send("Something went wrong!");
 });
 
 // Connect to Mongo Database
+console.log(process.env.DB_URL);
 mongoose
   .connect(process.env.DB_URL)
   .then(() => {
-    console.log("Connected to MongoDB", {connectTimeoutMS: 30000});
+    console.log("Connected to MongoDB", { connectTimeoutMS: 30000 });
   })
   .catch((err) => {
     console.error("Error connecting to database", err.message);

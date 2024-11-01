@@ -9,6 +9,9 @@ exports.registerForm = async (req, res) => {
 
 //this logic renders a login form
 exports.loginForm = async (req, res) => {
+  console.log(req.flash("message"));
+  console.log(req);
+
   res.render("login", { message: req.flash("message") });
 };
 
@@ -47,6 +50,7 @@ exports.loginUser = async (req, res) => {
     const foundUser = await User.findOne({ email });
 
     if (!foundUser) {
+      console.log("founduser");
       req.flash("message", "email doesn't exist");
       return res.render("login", { message: req.flash("message") });
       // return res.status(400).json({ status: false, message: "email doesn't exist"});
@@ -54,16 +58,21 @@ exports.loginUser = async (req, res) => {
 
     const isSimilar = await bcryptjs.compare(password, foundUser.password);
     if (!isSimilar) {
+      console.log("similarpass");
       req.flash("message", "invalid email or password");
       return res.render("login", { message: req.flash("message") });
       // return res.status(400).json({ status: false, message: "Invalid email or password" });
     }
-
+    console.log(foundUser, "found");
     //destructure the gotten user object and add them to jwt token
     const { id, username, role } = foundUser;
-    const token = jwt.sign({ id, username, email, role }, process.env.JWT_SECRET, {
-      expiresIn: process.env.JWT_LIFETIME,
-    });
+    const token = jwt.sign(
+      { id, username, email, role },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: process.env.JWT_LIFETIME,
+      }
+    );
 
     res.cookie("jwt", token, { httpOnly: true, secure: true });
     req.flash("message", `${role} logged in successfully`);
