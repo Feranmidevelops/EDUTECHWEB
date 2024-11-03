@@ -58,7 +58,6 @@ exports.loginUser = async (req, res) => {
 
     const isSimilar = await bcryptjs.compare(password, foundUser.password);
     if (!isSimilar) {
-      console.log("similarpass");
       req.flash("message", "invalid email or password");
       return res.render("login", { message: req.flash("message") });
       // return res.status(400).json({ status: false, message: "Invalid email or password" });
